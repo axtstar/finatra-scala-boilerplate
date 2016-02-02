@@ -83,15 +83,16 @@ class ExampleController extends Controller {
            """)
   }
 
-  post("/post") { request: Request =>
+  post("/post") { request: UsersRequest =>
+    warn("max:" + request.max)
     response.
-    ok.
+      ok.
       json("""
-    {
-      "id": "111"
-    }
-           """)
-
+             {
+             "result": "ok",
+             "s": 19
+             }
+             """)
   }
 
   post("/multipartParamsEcho") { request: Request =>
@@ -100,7 +101,5 @@ class ExampleController extends Controller {
 }
 
 case class UsersRequest(
-                         @QueryParam max: Int,
-                         @QueryParam startDate: String,
-                         @QueryParam verbose: Boolean = false)
+                         @FormParam max: Int)
 

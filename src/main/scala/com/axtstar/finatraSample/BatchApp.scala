@@ -1,30 +1,32 @@
+import java.net.URL
+
+import com.twitter.finagle.http.{Method, FormElement, Request, RequestBuilder}
+import com.twitter.finagle.zipkin.host
 import com.twitter.finagle.{Http, Service, Status}
 import com.twitter.finagle.http
 import com.twitter.finatra.request._
 import com.twitter.finatra.validation._
+import com.twitter.io.Buf
 import com.twitter.util.{Await, Future}
-import org.jboss.netty.handler.codec.http.{HttpResponseStatus, DefaultHttpResponse}
+import org.jboss.netty.handler.codec.http.{HttpHeaders, HttpRequest, HttpResponseStatus, DefaultHttpResponse}
 import org.joda.time.DateTime
+import org.jboss.netty.buffer.ChannelBuffers.wrappedBuffer
 
 object Client extends App {
   override def main(args: Array[String]): Unit = {
     val client: Service[http.Request, http.Response] = Http.newService("localhost:8888")
-    // get
-    val requestGet = http.Request(http.Method.Get, "/hello")
-    requestGet.host = "localhost"
-    val responseGet: Future[http.Response] = client(requestGet)
-
-    responseGet.onSuccess{ respGet:http.Response =>
-      println(respGet)
-      respGet
-    }
-    Await.ready(responseGet)
-
     // put
-    val request = http.Request(http.Method.Get, "/users")
-    request.host = "localhost"
-    val userRequest = new UsersRequest(10,"test",false)
-    request.setContentString(userRequest.toString)
+
+
+    val content = "max=10"
+    val payload = content.getBytes("UTF-8")
+    val request: Request =  RequestBuilder()
+       .url(new URL("http://localhost:8888/post"))
+       .setHeader("Content-Type","text/html")
+       .setHeader("Content-Length",payload.length.toString)
+       .setHeader("Accept", "*/*")
+       .build(Method.Post,Option(Buf.Utf8(content)))
+
     val response: Future[http.Response] = client(request)
     response.onSuccess { resp: http.Response =>
       resp.status match {
@@ -44,22 +46,6 @@ object Client extends App {
     Await.ready(response)
   }
 }
-
-object ScalaClient extends App {
-  val client: Service[http.Request, http.Response] = Http.newService("www.scala-lang.org:80")
-  val request = http.Request(http.Method.Get, "/")
-  request.host = "www.scala-lang.org"
-  val response: Future[http.Response] = client(request)
-  response.onSuccess { resp: http.Response =>
-    println("GET success: " + resp)
-  }
-  Await.ready(response)
-}
-
-case class UsersRequest(
-                         @QueryParam max: Int,
-                         @QueryParam startDate: String,
-                         @QueryParam verbose: Boolean = false)
 
 
 
