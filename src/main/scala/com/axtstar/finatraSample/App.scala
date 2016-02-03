@@ -1,14 +1,19 @@
 package com.axtstar.finatraSample
 
+import com.twitter.finagle.{SimpleFilter, Service}
+import com.twitter.finatra.filters.MergedFilter
+import com.twitter.finatra.http.filters.{StatsFilter, AccessLoggingFilter, HttpResponseFilter, ExceptionMappingFilter}
 import com.twitter.finatra.http.request.RequestUtils
 import com.twitter.finatra.http.routing.HttpRouter
 import com.twitter.finatra.http.HttpServer
-import com.twitter.finagle.http.Request
+import com.twitter.finagle.http.{Response, Request}
 import com.twitter.finatra.http.Controller
 import com.twitter.finatra.validation.{PastTime, Max}
 import javax.inject.Inject
 
 import com.twitter.finatra.request.{FormParam, QueryParam}
+import com.twitter.inject.requestscope.FinagleRequestScope
+import com.twitter.util.Future
 import org.joda.time.DateTime
 
 object ExampleServerMain extends ExampleServer
@@ -25,10 +30,19 @@ class ExampleServer extends HttpServer {
 
   override def configureHttp(router: HttpRouter): Unit = {
     router
+      .filter[UserFilter]
       .add[ExampleController]
   }
 }
 
+class UserFilter @Inject()(
+                            requestScope: FinagleRequestScope)
+  extends SimpleFilter[Request, Response] {
+
+  override def apply(request: Request, service: Service[Request, Response]): Future[Response] = {
+    service(request)
+  }
+}
 // Controller
 class ExampleController extends Controller {
 
@@ -90,7 +104,7 @@ class ExampleController extends Controller {
       json("""
              {
              "result": "ok",
-             "s": 19
+             "s": "山田"
              }
              """)
   }
