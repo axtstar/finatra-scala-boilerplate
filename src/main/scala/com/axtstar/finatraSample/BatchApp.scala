@@ -7,13 +7,25 @@ import com.twitter.finatra.request._
 import com.twitter.io.Buf
 import com.twitter.util.{Promise, Await, Future}
 import scalax.io._
+import scala.util.parsing.json.JSON
 
 object Client extends App {
   override def main(args: Array[String]): Unit = {
     val x = Client1.getJson("")
     var r = ""
-    x.foreach(k => r=k.encodeString())
-    println("here:" + r)
+    var ok = -1
+    x.foreach(k => {
+      ok = k.status.code
+      r = k.getContentString()
+    })
+    val person = JSON.parseFull(r)
+    person match {
+      case Some(m: Map[String, Any]) => m("s") match {
+      case s: String => println(s)
+      }
+    }
+    println("ok:" + ok)
+    println("JSON:" + r)
   }
 }
 
