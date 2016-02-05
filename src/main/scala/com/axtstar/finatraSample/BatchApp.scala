@@ -1,3 +1,5 @@
+package com.axtstar.finatraSample
+
 import java.net.URL
 
 import com.twitter.finagle.http.{Method, Request, RequestBuilder}
@@ -11,7 +13,7 @@ import scala.util.parsing.json.JSON
 
 object Client extends App {
   override def main(args: Array[String]): Unit = {
-    val x = Client1.getJson("")
+    val x = FinagleClient.getJson("")
     var r = ""
     var ok = -1
     x.foreach(k => {
@@ -29,7 +31,7 @@ object Client extends App {
   }
 }
 
-object Client1 extends App {
+object FinagleClient {
  def getJson(x:String): Future[http.Response] ={
    val returnVal = new Promise[String]
    val client: Service[http.Request, http.Response] = Http.newService("localhost:8888")
