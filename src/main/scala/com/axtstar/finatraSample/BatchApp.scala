@@ -3,40 +3,31 @@ package com.axtstar.finatraSample
 import java.net.URL
 
 import com.twitter.finagle.http.{Method, Request, RequestBuilder}
-import com.twitter.finagle.{Http, Service, Status}
+import com.twitter.finagle.{Http, Service}
 import com.twitter.finagle.http
-import com.twitter.finatra.request._
 import com.twitter.io.Buf
 import com.twitter.util.{Promise, Await, Future}
-import scalax.io._
-import scala.util.parsing.json.JSON
 
 object Client extends App {
   override def main(args: Array[String]): Unit = {
-    val x = FinagleClient.getJson("")
-    var r = ""
+    val x = FinagleClient.getJson("山田太郎")
+    var body = ""
     var ok = -1
     x.foreach(k => {
       ok = k.status.code
-      r = k.getContentString()
+      body = k.getContentString()
     })
-    val person = JSON.parseFull(r)
-    person match {
-      case Some(m: Map[String, Any]) => m("s") match {
-      case s: String => println(s)
-      }
-    }
-    println("ok:" + ok)
-    println("JSON:" + r)
+    println(s"ok:${ok}")
+    println(s"JSON:${body}")
   }
 }
 
 object FinagleClient {
- def getJson(x:String): Future[http.Response] ={
+ def getJson(name:String): Future[http.Response] ={
    val returnVal = new Promise[String]
    val client: Service[http.Request, http.Response] = Http.newService("localhost:8888")
    // put
-   val content = "max=10"
+   val content = s"name=${name}"
    val payload = content.getBytes("UTF-8")
    val request: Request =  RequestBuilder()
      .url(new URL("http://localhost:8888/post"))

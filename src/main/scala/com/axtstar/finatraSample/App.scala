@@ -1,20 +1,16 @@
 package com.axtstar.finatraSample
 
 import com.twitter.finagle.{SimpleFilter, Service}
-import com.twitter.finatra.filters.MergedFilter
-import com.twitter.finatra.http.filters.{StatsFilter, AccessLoggingFilter, HttpResponseFilter, ExceptionMappingFilter}
 import com.twitter.finatra.http.request.RequestUtils
 import com.twitter.finatra.http.routing.HttpRouter
 import com.twitter.finatra.http.HttpServer
 import com.twitter.finagle.http.{Response, Request}
 import com.twitter.finatra.http.Controller
-import com.twitter.finatra.validation.{PastTime, Max}
 import javax.inject.Inject
 
-import com.twitter.finatra.request.{FormParam, QueryParam}
+import com.twitter.finatra.request.FormParam
 import com.twitter.inject.requestscope.FinagleRequestScope
 import com.twitter.util.Future
-import org.joda.time.DateTime
 
 object ExampleServerMain extends ExampleServer
 
@@ -23,14 +19,11 @@ class ExampleServer extends HttpServer {
   // override default behaviour
   override val disableAdminHttpServer = false
 
-  //override val defaultMaxRequestSize = 10.megabytes
-
-  //override val modules = Seq(
-  //  DoEverythingModule)
-
   override def configureHttp(router: HttpRouter): Unit = {
     router
+      // filter
       .filter[UserFilter]
+      // controller
       .add[ExampleController]
   }
 }
@@ -40,11 +33,23 @@ class UserFilter @Inject()(
   extends SimpleFilter[Request, Response] {
 
   override def apply(request: Request, service: Service[Request, Response]): Future[Response] = {
+    //println(request)
     service(request)
   }
 }
 // Controller
 class ExampleController extends Controller {
+
+  post("/post") { request: UsersRequest =>
+    response.
+      ok.
+      json(s"""
+             {
+             "result": "ok",
+             "name": "${request.name}さんこんにちは"
+             }
+           """)
+  }
 
   // http://127.0.0.1:8888/ping
   get("/ping") { request: Request =>
@@ -97,23 +102,10 @@ class ExampleController extends Controller {
            """)
   }
 
-  post("/post") { request: UsersRequest =>
-    warn("max:" + request.max)
-    response.
-      ok.
-      json("""
-             {
-             "result": "ok",
-             "s": "山田"
-             }
-             """)
-  }
-
   post("/multipartParamsEcho") { request: Request =>
     RequestUtils.multiParams(request).keys
   }
 }
 
-case class UsersRequest(
-                         @FormParam max: Int)
+case class UsersRequest(@FormParam name: String)
 
