@@ -25,11 +25,26 @@ lazy val versions = new {
 
 
 libraryDependencies ++= Seq(
-  "com.twitter.finatra" %% "finatra-http" % versions.finatra,
-  "com.twitter.inject" %% "inject-server" % versions.finatra % "test",
-  "com.twitter.finatra" %% "finatra-http" % versions.finatra,
-  "com.twitter.inject" %% "inject-server" % versions.finatra % "test",
-  "org.mockito" % "mockito-core" % versions.mockito % "test"
+  "com.twitter.finatra" % "finatra-http_2.11" % versions.finatra,
+  "com.twitter.finatra" % "finatra-slf4j_2.11" % versions.finatra,
+  "com.twitter.finatra" % "finatra-jackson_2.11" % versions.finatra,
+  "com.twitter.finatra" % "finatra-http_2.11" % versions.finatra % "test",
+  "com.twitter.inject" % "inject-server_2.11" % versions.finatra % "test",
+  "com.twitter.inject" % "inject-app_2.11" % versions.finatra % "test",
+  "com.twitter.inject" % "inject-core_2.11" % versions.finatra % "test",
+  "com.twitter.inject" %% "inject-modules" % versions.finatra % "test",
+  "com.google.inject.extensions" % "guice-testlib" % versions.guice % "test",
+  "com.twitter.finatra" % "finatra-jackson_2.11" % versions.finatra % "test",
+  "com.twitter.finatra" % "finatra-http_2.11" % versions.finatra % "test" classifier "tests",
+  "com.twitter.inject" % "inject-server_2.11" % versions.finatra % "test" classifier "tests",
+  "com.twitter.inject" % "inject-app_2.11" % versions.finatra % "test" classifier "tests",
+  "com.twitter.inject" % "inject-core_2.11" % versions.finatra % "test" classifier "tests",
+  "com.twitter.inject" % "inject-modules_2.11" % versions.finatra % "test" classifier "tests",
+  "com.google.inject.extensions" % "guice-testlib" % versions.guice % "test" classifier "tests",
+  "com.twitter.finatra" % "finatra-jackson_2.11" % versions.finatra % "test" classifier "tests",
+  "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test",
+  "org.specs2" %% "specs2" % "2.3.12" % "test",
+"org.mockito" % "mockito-core" % versions.mockito % "test"
 )
 
 resolvers ++= Seq(
