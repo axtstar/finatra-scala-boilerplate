@@ -53,3 +53,48 @@ object FinagleClient {
    Await.ready(response)
  }
 }
+
+object FortuneClient {
+
+  def getFortune = {
+    val x = getJson
+    var body = ""
+    var ok = -1
+    x.foreach(k => {
+      ok = k.status.code
+      body = k.getContentString()
+    })
+    s"$body"
+  }
+
+  def getJson: Future[http.Response] ={
+    val returnVal = new Promise[String]
+    val client: Service[http.Request, http.Response] = Http.newService("localhost:8889")
+    // put
+    val content = s""
+    val payload = content.getBytes("UTF-8")
+    val request: Request =  RequestBuilder()
+      .url(new URL("http://localhost:8889/fortune"))
+      .setHeader("User-Agent","myCrwaler")
+      .setHeader("Content-Type","application/json")
+      .setHeader("Content-Length",payload.length.toString)
+      .setHeader("Accept", "*/*")
+      .build(Method.Get,Option(Buf.Utf8(content)))
+
+    val response: Future[http.Response] = client(request)
+    response.onSuccess { resp: http.Response =>
+      resp.getStatusCode() match {
+        case 200 => {
+          returnVal.setValue(resp.encodeString())
+        }
+        case _ =>
+          returnVal.setValue(resp.encodeString())
+      }
+
+    }.onFailure { cause:Throwable =>
+      returnVal.setException(cause)
+    }
+    Await.ready(response)
+  }
+}
+

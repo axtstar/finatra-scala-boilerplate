@@ -33,7 +33,7 @@ class UserFilter @Inject()(
   extends SimpleFilter[Request, Response] {
 
   override def apply(request: Request, service: Service[Request, Response]): Future[Response] = {
-    //println(request)
+    println(request)
     service(request)
   }
 }
@@ -47,12 +47,13 @@ class ExampleController extends Controller {
              {
              "result": "ok",
              "name": "${request.name}さんこんにちは"
+             "fortune": "${FortuneClient.getFortune}"
              }
            """)
   }
 
-  // http://127.0.0.1:8888/ping
-  get("/ping") { request: Request =>
+  // http://127.0.0.1:8888/fortune
+  get("/fortune") { request: Request =>
     info("ping")
     "pong"
   }

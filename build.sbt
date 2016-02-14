@@ -14,10 +14,25 @@ assemblyMergeStrategy in assembly := {
   case other => MergeStrategy.defaultMergeStrategy(other)
 }
 
+lazy val versions = new {
+  val finatra = "2.1.2"
+  val guice = "4.0"
+  val logback = "1.0.13"
+  val mockito = "1.9.5"
+  val scalatest = "2.2.3"
+  val specs2 = "2.3.12"
+}
+
+
 libraryDependencies ++= Seq(
-  ("com.twitter.finatra" % "finatra-http_2.11" % "2.1.2"),
-  ("com.github.scala-incubator.io" % "scala-io-file_2.11" % "0.4.3-1")
+  "com.twitter.finatra" %% "finatra-http" % versions.finatra,
+  "com.twitter.inject" %% "inject-server" % versions.finatra % "test",
+  "com.twitter.finatra" %% "finatra-http" % versions.finatra,
+  "com.twitter.inject" %% "inject-server" % versions.finatra % "test",
+  "org.mockito" % "mockito-core" % versions.mockito % "test"
 )
 
-resolvers +=
-  "Twitter" at "http://maven.twttr.com"
+resolvers ++= Seq(
+  "Twitter" at "http://maven.twttr.com",
+  "Finatra Repo" at "http://twitter.github.com/finatra"
+)
