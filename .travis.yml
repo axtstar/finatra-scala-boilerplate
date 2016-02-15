@@ -9,6 +9,7 @@ jdk:
 before_script:
   # default $SBT_OPTS is irrelevant to sbt launcher
   - unset SBT_OPTS
+  - chmod +x ./sbt
   - chmod +x ./bin/travisci
   - ./bin/travisci
 
