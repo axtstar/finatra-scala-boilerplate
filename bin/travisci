@@ -17,7 +17,7 @@ function retry {
 
 function git_get_repo {
   local repo_name=$1
-  git clone https://github.com/axtstar/$repo_name.git --branch develop --depth 1
+  git clone https://github.com/axtstar/$repo_name.git --branch master --depth 1
 }
 
 function sbt_run {
@@ -75,13 +75,7 @@ function setup {
 function run {
   # Publish local dependencies when not in a master branch
 #  if [ "$TRAVIS_BRANCH" != "master" ]; then
-    setup finatra
-
-    dependency util
-    dependency ostrich
-    project_dependency scrooge scrooge-core
-    dependency finagle
-    dependency twitter-server
+    setup finatraSample
 
     clean_up
 #  fi
