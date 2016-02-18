@@ -12,7 +12,8 @@ So I tried to write some sample code in order to comprehending them.
 
 #environment
 
-sbt0.13.8 or later
+sbt 0.13.8 or later
+
 scala 2.11
 
 #how to compile
