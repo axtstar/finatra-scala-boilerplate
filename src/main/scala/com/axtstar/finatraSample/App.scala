@@ -46,7 +46,7 @@ class ExampleController extends Controller {
       json(s"""
              {
              "result": "ok",
-             "name": "${request.name}さんこんにちは"
+             "name": "${request.name}さんこんにちは",
              "fortune": "${FortuneClient.getFortune}"
              }
            """)
