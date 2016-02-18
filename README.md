@@ -25,7 +25,7 @@ This sample contains two main classes, so you have to select one main class like
 
 >java -cp target/scala-2.11/finatraSample-assembly-0.0.1-SNAPSHOT.jar com.axtstar.finatraSample.ExampleServerMain
 
-You can access locally to the server at http://localhost:8888/foo, then get the JSON.
+You can access locally to the server at <a href='http://localhost:8888/foo'>http://localhost:8888/foo</a>, then get the JSON.
 
    {
       "name": "Bob",
@@ -35,3 +35,13 @@ You can access locally to the server at http://localhost:8888/foo, then get the 
 //to start client
 
 >java -cp target/scala-2.11/finatraSample-assembly-0.0.1-SNAPSHOT.jar com.axtstar.finatraSample.Client
+
+The client access to <a href='http://localhost:8888/post'>http://localhost:8888/post</a> by POST method and get the JSON.
+
+ok:200
+JSON:
+             {
+             "result": "ok",
+             "name": "山田太郎さんこんにちは"
+             "fortune": ""
+             }
