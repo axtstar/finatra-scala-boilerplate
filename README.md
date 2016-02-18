@@ -8,7 +8,7 @@ I'm very excited in founding twitter's finatra!
 
 It's based on Finagle, RPC high concurrecncy system behind.
 
-So I tried to write some sample code insted of comprehending them.
+So I tried to write some sample code in order to comprehending them.
 
 #environment
 
