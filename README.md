@@ -2,21 +2,21 @@
 
 [![Build Status](https://travis-ci.org/axtstar/finatraSample.svg?branch=master)](https://travis-ci.org/axtstar/finatraSample)
 
-#motivation
+#Motivation
 Finatra is some kind of api server for microservices.
-I'm very excited in founding twitter's finatra!
+I'm very excited in founding twitter's Finatra!
 
 It's based on Finagle, RPC high concurrecncy system behind.
 
 So I tried to write some sample code in order to comprehending them.
 
-#environment
+#Environment
 
 sbt 0.13.8 or later
 
 scala 2.11
 
-#how to compile
+#How to compile
 This sample contains two main classes, so you have to select one main class like the below.
 
 //compile
