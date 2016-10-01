@@ -1,25 +1,24 @@
 # finatraSimpleSample
 
-#Motivation
+## Motivation
 
 Finatra is some kind of api server for microservices.
 I'm very excited in be found twitter's Finatra!
 
 It's based on Finagle, RPC high concurrecncy system behind.
 
-So I tried to write some simple sample code in order to comprehending them.
+So I tried to write some simple sample code in order to comprehend them.
 
-#Environment
+## Environment
 
 sbt 0.13.8 or later
 scala 2.11
 
-#How to compile
-This sample contains two main classes, so you have to select one main class like the below.
+## How to compile this sample
 
 compile
 
-```scala
+```bash
 sbt assembly
 ```
 
