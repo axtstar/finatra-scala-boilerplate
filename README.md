@@ -1,9 +1,11 @@
-# finatraSimpleSample
+[![Build Status](https://travis-ci.org/axtstar/finatra-scala-boilerplate.svg?branch=master)](https://travis-ci.org/axtstar/finatra-scala-boilerplate)
+
+# finatra-scala-boilerplate
 
 ## Motivation
 
 Finatra is some kind of api server for microservices.
-I'm very excited in be found twitter's Finatra!
+I'm very excited in being found twitter's Finatra!
 
 It's based on Finagle, RPC high concurrecncy system behind.
 
